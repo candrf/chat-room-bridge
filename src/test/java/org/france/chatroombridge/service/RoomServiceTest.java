@@ -72,4 +72,5 @@ public class RoomServiceTest {
 
         assertThat(actual).isEqualTo(testRoomList);
     }
+
 }

@@ -25,4 +25,6 @@ public class RoomService {
     public List<Room> findAllRooms(){
         return roomRepository.findAll();
     }
+
+
 }
