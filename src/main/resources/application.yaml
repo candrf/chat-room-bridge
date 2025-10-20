@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: chat-room-bridge
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chat_postgres
+    driver-class-name: org.postgresql.Driver
+    username: chat
+    password: chat1234
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 8080
