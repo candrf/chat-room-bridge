@@ -1,10 +1,7 @@
 package org.france.chatroombridge.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +9,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 public class Room {
 
@@ -20,6 +18,4 @@ public class Room {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-    private List<Message> messages;
 }
