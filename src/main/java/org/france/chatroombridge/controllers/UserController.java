@@ -4,10 +4,7 @@ package org.france.chatroombridge.controllers;
 import org.france.chatroombridge.entities.User;
 import org.france.chatroombridge.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -24,5 +21,10 @@ public class UserController {
     public ResponseEntity<User> createUser(User user){
         User savedUser = userService.saveUser(user);
         return ResponseEntity.status(201).body(savedUser);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findUser(@PathVariable Long id){
+        return ResponseEntity.ok(userService.findUser(id));
     }
 }

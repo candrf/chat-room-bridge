@@ -1,8 +1,8 @@
 package org.france.chatroombridge.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.france.chatroombridge.entities.User;
-import org.france.chatroombridge.service.UserService;
+import org.france.chatroombridge.entities.Room;
+import org.france.chatroombridge.service.RoomService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,54 +12,68 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserController.class)
+@WebMvcTest(RoomController.class)
 @AutoConfigureMockMvc
-public class UserControllerTest {
+public class RoomControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @MockitoBean
-    UserService userService;
+    RoomService roomService;
 
-    User testUser = User.builder()
+    Room testRoom = Room.builder()
             .id(1L)
-            .name("Andrew")
+            .name("Default")
             .build();
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
-    void shouldCreateUser() throws Exception{
-        Mockito.when(userService.saveUser(testUser))
-                .thenReturn(testUser);
+    void shouldCreateRoom() throws Exception{
+        Mockito.when(roomService.saveRoom(testRoom))
+                .thenReturn(testRoom);
 
-        String userJson = objectMapper.writeValueAsString(testUser);
 
-        mvc.perform(post("/api/user")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(userJson))
+        mvc.perform(post("/api/rooms"))
                 .andExpect(status().is2xxSuccessful());
+
     }
 
     @Test
-    void shouldFindUserById() throws Exception{
-        Mockito.when(userService.findUser(1L)).thenReturn(testUser);
+    void shouldFindAllRooms() throws Exception{
+        List<Room> roomList = new ArrayList<>();
+        roomList.add(testRoom);
 
-        String userJson = objectMapper.writeValueAsString(testUser);
+        Mockito.when(roomService.findAllRooms()).thenReturn(roomList);
 
-        mvc.perform(get("/api/user/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(userJson))
+        mvc.perform(get("/api/rooms"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+
+    }
+
+    @Test
+    void shouldFindRoomById() throws Exception{
+        Mockito.when(roomService.findRoom(1L)).thenReturn(testRoom);
+
+        String roomJson = objectMapper.writeValueAsString(testRoom);
+
+        mvc.perform(get("/api/rooms/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(roomJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.name").value("Andrew"));
+                .andExpect(jsonPath("$.name").value("Default"));
 
     }
 
