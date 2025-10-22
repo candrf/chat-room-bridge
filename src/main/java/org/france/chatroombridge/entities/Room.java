@@ -3,7 +3,6 @@ package org.france.chatroombridge.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 @Getter
 @Setter

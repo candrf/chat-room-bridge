@@ -6,7 +6,7 @@ import App from "../src/App";
 describe("App component", () => {
     it("should display hello world", () => {
         render(<App/>)
-        expect(screen.getByRole("heading", {name:/Hello world/i})).toBeInTheDocument();
+        expect(screen.getByRole("heading", {name:/Welcome/i})).toBeInTheDocument();
 
     });
 });

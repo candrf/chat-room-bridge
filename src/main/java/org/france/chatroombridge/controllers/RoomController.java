@@ -17,7 +17,7 @@ public class RoomController {
     }
 
     @PostMapping()
-    public ResponseEntity<Room> createRoom(Room room){
+    public ResponseEntity<Room> createRoom(@RequestBody Room room){
         Room savedRoom = roomService.saveRoom(room);
         return ResponseEntity.status(201).body(savedRoom);
     }

@@ -17,7 +17,7 @@ public class MessageController {
     }
 
     @PostMapping()
-    public ResponseEntity<Message> createMessage(Message message){
+    public ResponseEntity<Message> createMessage(@RequestBody Message message){
         Message savedMessage = messageService.saveMessage(message);
         return ResponseEntity.status(201).body(savedMessage);
     }
