@@ -26,4 +26,15 @@ public class MessageService {
         return messageRepository.findByRoomId(id);
     }
 
+    public void deleteMessage(Long id){
+        messageRepository.deleteById(id);
+    }
+
+    public Message updateMessageText(Long messageId, String newText) {
+        Message msg = messageRepository.findById(messageId)
+                .orElseThrow(() -> new RuntimeException("Message not found"));
+        msg.setMessage(newText);
+        return messageRepository.save(msg);
+    }
+
 }

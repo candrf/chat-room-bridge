@@ -11,14 +11,14 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -73,5 +73,24 @@ public class MessageControllerTest {
         mvc.perform(get("/api/messages/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    void shouldDeleteMessageById() throws Exception {
+
+        mvc.perform(delete("/api/messages/1"))
+                .andExpect(status().isNoContent());
+
+    }
+
+    @Test
+    void shouldUpdateMessage() throws Exception {
+
+        String testJson = objectMapper.writeValueAsString(testMessage);
+
+        mvc.perform(patch("/api/messages/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testJson))
+                .andExpect(status().isOk());
     }
 }

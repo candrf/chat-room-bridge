@@ -21,7 +21,7 @@ function ChatRoom({user, room}:ChatRoomProps){
                 <h2>Room: {room.name}</h2>
                 <p>Welcome {user.name}!</p>
                 <button onClick={()=>{handleClick()}}>Back To Rooms</button>
-                <MessageList roomId={room.id}/>
+                <MessageList roomId={room.id} userId={user.id}/>
                 <MessageInput user={user} room={room}/>
             </div>
         </>

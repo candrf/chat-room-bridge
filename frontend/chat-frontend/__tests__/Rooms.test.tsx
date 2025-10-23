@@ -21,7 +21,6 @@ const mockRooms: Room[] = [
 ];
 
 
-
 describe("Rooms component", () => {
 
     beforeEach(() => {
@@ -67,6 +66,16 @@ describe("Rooms component", () => {
 
         expect(mockOnRoomSelect).toHaveBeenCalledWith({id:1, name:"Room 1"});
         expect(navigateMock).toHaveBeenCalledWith("/rooms/1");
+
+    })
+
+    it("should create a new room", async () =>{
+        const mockOnRoomSelect = vi.fn();
+        render(<Rooms onRoomSelect={mockOnRoomSelect} />);
+
+        //
+        // const input = screen.getByPlaceholderText(/new room name/i);
+        // await userEvent.type(input, "New Room");
 
     })
 

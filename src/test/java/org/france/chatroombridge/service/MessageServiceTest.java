@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -82,6 +83,38 @@ public class MessageServiceTest {
         verify(messageRepository, times(1)).findByRoomId(1L);
 
         assertThat(actual).isEqualTo(messages);
+    }
+
+    @Test
+    void shouldDeleteMessage() {
+        Long messageId = 1L;
+
+        // No need to mock anything for void deleteById, just verify
+        doNothing().when(messageRepository).deleteById(messageId);
+
+        messageService.deleteMessage(messageId);
+
+        verify(messageRepository, times(1)).deleteById(messageId);
+    }
+
+    @Test
+    void shouldUpdateMessage(){
+        // save original message
+        when(messageRepository.save(testMessage)).thenReturn(testMessage);
+        messageService.saveMessage(testMessage);
+
+        Long messageId = 1L;
+        String newMessage = "new message";
+
+        //find old message and save updated message
+        when(messageRepository.findById(messageId)).thenReturn(Optional.ofNullable(testMessage));
+
+        Message updatedMessage = messageService.updateMessageText(1L, newMessage);
+
+        verify(messageRepository, times(1)).findById(testMessage.getId());
+        verify(messageRepository, times(2)).save(testMessage);
+
+        assertThat(updatedMessage.getMessage()).isEqualTo(newMessage);
     }
 
 }

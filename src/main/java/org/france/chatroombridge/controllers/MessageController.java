@@ -26,4 +26,18 @@ public class MessageController {
     public ResponseEntity<List<Message>> findMessageByRoom(@PathVariable Long roomId){
         return ResponseEntity.ok(messageService.findMessagesByRoom(roomId));
     }
+
+    @DeleteMapping("/{messageId}")
+    public ResponseEntity<Void> deleteMessage(@PathVariable Long messageId){
+
+        messageService.deleteMessage(messageId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{messageId}")
+    public ResponseEntity<Message> updateMessage(@PathVariable Long messageId, @RequestBody Message message){
+        Message updated = messageService.updateMessageText(messageId, message.getMessage());
+        return ResponseEntity.ok(updated);
+
+    }
 }
