@@ -2,5 +2,8 @@ form{
     border: solid black 2px;
 }
 #textBox{
-  border: solid black 2px;
+    border: solid black 2px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 2px;
 }

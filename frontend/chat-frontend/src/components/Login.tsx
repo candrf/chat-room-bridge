@@ -12,7 +12,8 @@ function Login({onLogin}:{onLogin: (user: User) => void}){
 
     const createUser = async () => {
         try{
-            const response = await axios.post<User>('http://localhost:8080/api/user', {name: username})
+            const response = await axios.post<User>(
+                'http://localhost:8080/api/user', {name: username})
             onLogin(response.data);
             console.log(response.data);
         }catch (error){

@@ -22,7 +22,7 @@ function MessageList({roomId}: MessageListProps){
         fetchMessages()
         const interval = setInterval(fetchMessages, 5000); // time for refresh
         return () => clearInterval(interval);
-    },[roomId])
+    },[])
 
     return(
         <>

@@ -32,6 +32,12 @@ function MessageInput({user, room}:MessageInputProps){
             setMessage("");
         }
     }
+
+    const handleKeyDown = (key: string) =>{
+        if(key === "Enter"){
+            sendMessage();
+        }
+    }
     return(
         <>
             <input
@@ -39,6 +45,7 @@ function MessageInput({user, room}:MessageInputProps){
                 placeholder={"Enter a message"}
                 value={message}
                 onChange={(e)=> setMessage(e.target.value)}
+                onKeyDown={(e) => handleKeyDown(e.key)}
             />
             <button onClick={sendMessage}>Send</button>
         </>

@@ -1,12 +1,12 @@
-import {render, screen} from "@testing-library/react"
-import {describe, expect, it} from "vitest"
+import { render, screen} from "@testing-library/react";
+import { describe, it, vi} from "vitest";
 import App from "../src/App";
 
 
 describe("App component", () => {
-    it("should display hello world", () => {
-        render(<App/>)
-        expect(screen.getByRole("heading", {name:/Welcome/i})).toBeInTheDocument();
-
+    it("renders Login on page load when no user is present", () => {
+        render(<App />);
+        expect(screen.getByRole("heading", {name: /login/i})).toBeInTheDocument();
     });
+
 });
