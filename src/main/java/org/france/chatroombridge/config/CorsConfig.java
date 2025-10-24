@@ -1,4 +1,4 @@
-package org.france.chatroombridge;
+package org.france.chatroombridge.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

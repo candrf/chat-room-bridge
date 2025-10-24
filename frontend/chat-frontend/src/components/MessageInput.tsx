@@ -1,37 +1,32 @@
 import type {User} from "../types/User.ts";
 import type {Room} from "../types/Room.ts";
 import {useState} from "react";
-import axios from "axios";
-import type {Message} from "../types/Message.ts";
+import { Client } from "@stomp/stompjs";
 
 interface MessageInputProps{
     user: User;
     room: Room;
+    client: Client;
 }
 
-function MessageInput({user, room}:MessageInputProps){
+function MessageInput({user, room, client}:MessageInputProps){
     const [message, setMessage] = useState("");
 
-    const sendMessage = async () => {
+    const sendMessage = () => {
         if (!message.trim()) return;
 
-        const timestamp = new Date().toISOString();
-
-        try {
-            const response = await axios.post<Message>(
-                'http://localhost:8080/api/messages', {
-                    message: message,
-                    timestamp: timestamp,
-                    user: user,
-                    room: room
-                })
-            console.log(response.data);
-        } catch (error){
-            console.error(error);
-        } finally {
-            setMessage("");
+        if (!client.connected) {
+            console.warn("WebSocket not connected, message not sent");
+            return;
         }
-    }
+
+        client.publish({
+            destination: `/app/chat.sendMessage/${room.id}`,
+            body: JSON.stringify({ message, user: { id: user.id } }),
+        });
+
+        setMessage("");
+    };
 
     const handleKeyDown = (key: string) =>{
         if(key === "Enter"){

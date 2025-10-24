@@ -1,23 +1,63 @@
 import type {Message} from "../types/Message.ts";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
+import { Client } from "@stomp/stompjs";
 
 interface MessageListProps {
     roomId: number;
     userId: number;
+    client: Client;
 }
 
-function MessageList({roomId, userId}: MessageListProps){
+function MessageList({roomId, userId, client}: MessageListProps){
     const [messages, setMessages] = useState<Message[]>([])
+    const [connected, setConnected] = useState(false);
 
-    const fetchMessages = async () => {
-        try {
-            const response = await axios.get<Message[]>(`http://localhost:8080/api/messages/${roomId}`)
-            setMessages(response.data);
-        }catch (error){
-            console.error(error);
-        }
-    }
+    // Create a ref for the scroll container
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        // Wait for client to connect
+        const checkConnection = () => {
+            if (client.connected) {
+                setConnected(true);
+            } else {
+                const timer = setTimeout(checkConnection, 100); // retry until connected
+                return () => clearTimeout(timer);
+            }
+        };
+        checkConnection();
+    }, [client]);
+
+    useEffect(() => {
+        if (!connected) return; // do nothing until client is connected
+
+        // Load message history
+        const loadHistory = async () => {
+            try {
+                const res = await axios.get<Message[]>(
+                    `http://localhost:8080/api/messages/${roomId}`
+                );
+                setMessages(res.data);
+            } catch (err) {
+                console.error("Failed to fetch messages", err);
+            }
+        };
+        loadHistory();
+
+        // Subscribe to live messages
+        const subscription = client.subscribe(`/topic/room.${roomId}`, (frame) => {
+            const newMsg: Message = JSON.parse(frame.body);
+            setMessages((prev) => [...prev, newMsg]);
+        });
+
+        return () => subscription.unsubscribe();
+    }, [connected, client, roomId]);
+
+    // Scroll to bottom whenever messages change
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     const handleDelete = async (messageId: number) => {
         try {
@@ -44,12 +84,6 @@ function MessageList({roomId, userId}: MessageListProps){
     };
 
 
-    useEffect(()=>{
-        fetchMessages()
-        const interval = setInterval(fetchMessages, 2000); // time for refresh
-        return () => clearInterval(interval);
-    },[])
-
     return(
         <>
             <div className="flex flex-col h-[70vh] max-h-[80vh] border-2 border-gray-300 rounded-2xl overflow-hidden shadow-md bg-gray-50">
@@ -75,6 +109,8 @@ function MessageList({roomId, userId}: MessageListProps){
                             )}
                         </div>
                     ))}
+                    {/* This empty div is used to scroll to */}
+                    <div ref={messagesEndRef} />
                 </div>
             </div>
         </>
