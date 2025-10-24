@@ -12,12 +12,15 @@ vi.mock("react-router-dom", async () => {
     };
 });
 
+// Mock MessageList component
 vi.mock("../src/components/MessageList", () => ({
     default: ({ roomId }: { roomId: number }) => (
         <div data-testid="message-list">MessageList for room {roomId}</div>
     ),
 }));
 
+
+// Mock MessageInput component
 vi.mock("../src/components/MessageInput", () => ({
     default: ({ user, room }: any) => (
         <div data-testid="message-input">

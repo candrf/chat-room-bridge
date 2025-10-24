@@ -22,7 +22,7 @@ describe("MessageList component", () => {
     })
 
     it("renders messages after mounting", async ()=>{
-        const mockedAxios= vi.spyOn(axios, 'get').mockResolvedValue({data:mockMessages});
+        vi.spyOn(axios, 'get').mockResolvedValue({data:mockMessages});
         render(<MessageList roomId={1} userId={1}/>);
 
         await waitFor(() => {
@@ -34,7 +34,7 @@ describe("MessageList component", () => {
     })
 
     it("renders buttons for editing and deleting if it belongs to user", async ()=> {
-        const mockedAxios= vi.spyOn(axios, 'get').mockResolvedValue({data:mockMessages});
+        vi.spyOn(axios, 'get').mockResolvedValue({data:mockMessages});
         render(<MessageList roomId={1} userId={1}/>);
 
         await waitFor(() => {
