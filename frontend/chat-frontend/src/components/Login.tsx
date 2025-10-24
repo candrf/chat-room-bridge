@@ -38,7 +38,7 @@ function Login({onLogin}:{onLogin: (user: User) => void}){
         <>
             <div className={"flex min-h-screen items-center justify-center bg-gray-200"}>
                 <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
-                    <h1 className={"text-3xl"}>Login</h1>
+                    <h1 className={"text-3xl"}>Login (WS VERSION)</h1>
                 <form onSubmit={handleSubmit} className={"space-y-5"}>
                     <input
                         placeholder="Enter you name"
