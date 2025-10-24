@@ -4,6 +4,8 @@ import org.france.chatroombridge.entities.User;
 import org.france.chatroombridge.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -18,5 +20,9 @@ public class UserService {
 
     public User findUser(Long id){
         return userRepository.findById(id).orElseThrow();
+    }
+
+    public Optional<User> findByName(String name) {
+        return userRepository.findByNameIgnoreCase(name);
     }
 }

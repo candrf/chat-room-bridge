@@ -56,10 +56,12 @@ public class MessageControllerTest {
     void shouldCreateMessage() throws Exception {
         Mockito.when(messageService.saveMessage(testMessage)).thenReturn(testMessage);
 
-        mvc.perform(post("/api/messages"))
-                .andExpect(status().is2xxSuccessful());
+        String message = objectMapper.writeValueAsString(testMessage);
 
-        System.out.println(objectMapper.writeValueAsString(testMessage));
+        mvc.perform(post("/api/messages")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(message))
+                .andExpect(status().is2xxSuccessful());
 
     }
 

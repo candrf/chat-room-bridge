@@ -6,6 +6,8 @@ import org.france.chatroombridge.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -26,5 +28,12 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> findUser(@PathVariable Long id){
         return ResponseEntity.ok(userService.findUser(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<User> getUserByName(@RequestParam String name) {
+        Optional<User> user = userService.findByName(name);
+        return user.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

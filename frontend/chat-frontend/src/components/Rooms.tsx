@@ -44,24 +44,32 @@ function Rooms({onRoomSelect}:{onRoomSelect:(room: Room) => void}){
 
     return(
         <>
-            <h2>Room List</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type={"text"}
-                    placeholder={"Enter new room name"}
-                    value={newRoom}
-                    onChange={(e)=> setNewRoom(e.target.value)}
-                />
+            <div className={"flex min-h-screen justify-center bg-gray-200"}>
+                <div className="w-full my-3 max-w-md rounded-4xl bg-white p-8 shadow-lg">
+                    <h2 className={"text-4xl "}>Room List</h2>
+                    <form onSubmit={handleSubmit} className={"mt-2"}>
+                        <input
+                            type={"text"}
+                            placeholder={"Enter new room name"}
+                            value={newRoom}
+                            onChange={(e)=> setNewRoom(e.target.value)}
+                            className={"mt-2 me-2 p-1 border border-gray-300 rounded-lg"}
+                        />
 
-                <button type={"submit"}>Add Room</button>
-            </form>
-            <ul>
-                {rooms.map((room) => (
-                    <li key={room.id} onClick={()=> handleClick(room)}>
-                        {room.name}
-                    </li>
-                ))}
-            </ul>
+                        <button type={"submit"}
+                        className={"border border-gray-500 rounded-lg p-1"}>Add Room</button>
+                    </form>
+                    <ul>
+                        {rooms.map((room) => (
+                            <div key={room.id} >
+                                <button onClick={()=> handleClick(room)}
+                                        className={"w-fit mt-3 p-1 rounded-lg bg-black text-gray-200 font-semibold shadow-md"}>
+                                    {room.name}</button>
+                            </div>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </>
     )
 }

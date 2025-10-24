@@ -1,5 +1,6 @@
 package org.france.chatroombridge.controllers;
 
+import org.france.chatroombridge.DTOs.MessageUpdateDTO;
 import org.france.chatroombridge.entities.Message;
 import org.france.chatroombridge.service.MessageService;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,9 @@ public class MessageController {
     }
 
     @PatchMapping("/{messageId}")
-    public ResponseEntity<Message> updateMessage(@PathVariable Long messageId, @RequestBody Message message){
-        Message updated = messageService.updateMessageText(messageId, message.getMessage());
+    public ResponseEntity<Message> updateMessage(@PathVariable Long messageId, @RequestBody MessageUpdateDTO messageUpdateDTO){
+        String message = messageUpdateDTO.getMessage();
+        Message updated = messageService.updateMessageText(messageId, message);
         return ResponseEntity.ok(updated);
 
     }

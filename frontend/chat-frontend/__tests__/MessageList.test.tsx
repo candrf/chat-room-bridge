@@ -26,8 +26,10 @@ describe("MessageList component", () => {
         render(<MessageList roomId={1} userId={1}/>);
 
         await waitFor(() => {
-            expect(screen.getByText("Alice: Hello")).toBeInTheDocument();
-            expect(screen.getByText("Bob: Hi there!")).toBeInTheDocument();
+            expect(screen.getByText("Alice:")).toBeInTheDocument();
+            expect(screen.getByText("Hello")).toBeInTheDocument();
+            expect(screen.getByText("Bob:")).toBeInTheDocument();
+            expect(screen.getByText("Hi there!")).toBeInTheDocument();
         });
     })
 
@@ -36,8 +38,10 @@ describe("MessageList component", () => {
         render(<MessageList roomId={1} userId={1}/>);
 
         await waitFor(() => {
-            expect(screen.getByText("Alice: Hello")).toBeInTheDocument();
-            expect(screen.getByText("Bob: Hi there!")).toBeInTheDocument();
+            expect(screen.getByText("Alice:")).toBeInTheDocument();
+            expect(screen.getByText("Hello")).toBeInTheDocument();
+            expect(screen.getByText("Bob:")).toBeInTheDocument();
+            expect(screen.getByText("Hi there!")).toBeInTheDocument();
         });
 
         await waitFor(() => {

@@ -44,7 +44,11 @@ public class RoomControllerTest {
                 .thenReturn(testRoom);
 
 
-        mvc.perform(post("/api/rooms"))
+        String room = objectMapper.writeValueAsString(testRoom);
+
+        mvc.perform(post("/api/rooms")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(room))
                 .andExpect(status().is2xxSuccessful());
 
     }

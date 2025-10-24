@@ -39,16 +39,19 @@ function MessageInput({user, room}:MessageInputProps){
         }
     }
     return(
-        <>
+        <div className={"mt-2"}>
             <input
                 type={"text"}
                 placeholder={"Enter a message"}
                 value={message}
                 onChange={(e)=> setMessage(e.target.value)}
                 onKeyDown={(e) => handleKeyDown(e.key)}
+                className={"mt-2 me-2 p-1  w-full max-w-md border border-gray-300 rounded-lg shadow-md"}
             />
-            <button onClick={sendMessage}>Send</button>
-        </>
+            <button onClick={sendMessage}
+                    className={"bg-black text-gray-200 shadow-md rounded-lg p-1 w-13"}
+            >Send</button>
+        </div>
     )
 }
 

@@ -46,25 +46,36 @@ function MessageList({roomId, userId}: MessageListProps){
 
     useEffect(()=>{
         fetchMessages()
-        const interval = setInterval(fetchMessages, 5000); // time for refresh
+        const interval = setInterval(fetchMessages, 2000); // time for refresh
         return () => clearInterval(interval);
     },[])
 
     return(
         <>
-            <div id={"textBox"}>
-                {messages.map((message) => (
-                    <div key={message.id}>
-                        {message.user.name}: {message.message}
+            <div className="flex flex-col h-[70vh] max-h-[80vh] border-2 border-gray-300 rounded-2xl overflow-hidden shadow-md bg-gray-50">
+                <div id={"textBox"} className={"flex-1 overflow-y-auto p-4 space-y-3 "}>
+                    {messages.map((message) => (
+                        <div key={message.id} className={"border border-gray-300  bg-white rounded-lg p-2"}>
+                            <p>
+                                {message.user.name}:
+                            </p>
+                            <p>
+                                {message.message}
+                            </p>
 
-                        {message.user.id === userId && (
-                            <>
-                                <button onClick={()=>{handleEdit(message)}}>Edit</button>
-                                <button onClick={()=>{handleDelete(message.id)}}>Delete</button>
-                            </>
-                        )}
-                    </div>
-                ))}
+
+                            {message.user.id === userId && (
+                                <div className={"flex justify-end space-x-2 mt-1 text-xs"}>
+                                    <button onClick={()=>{handleEdit(message)}}
+                                    className={"border w-10 border-gray-500 rounded-lg p-0.5"}>Edit</button>
+
+                                    <button onClick={()=>{handleDelete(message.id)}}
+                                    className={"border border-gray-500 rounded-lg p-0.5 "}>Delete</button>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
         </>
     )
